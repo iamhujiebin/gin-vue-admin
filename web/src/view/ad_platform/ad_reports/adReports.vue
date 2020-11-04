@@ -21,7 +21,7 @@
           <el-button @click="onSubmit" type="primary">查询</el-button>
         </el-form-item>
         <el-form-item>
-          <el-button @click="openDialog" type="primary">新增adReports表</el-button>
+          <el-button @click="openDialog" type="primary">新增</el-button>
         </el-form-item>
         <el-form-item>
           <el-popover placement="top" v-model="deleteVisible" width="160">
@@ -53,7 +53,9 @@
 
       <el-table-column label="广告id" prop="adId" width="240"></el-table-column>
 
-      <el-table-column label="广告类型" prop="adType" width="120"></el-table-column>
+      <el-table-column label="广告类型" prop="adType" width="120" v-model="adTypeMap">
+        <template slot-scope="scope">{{ adTypeMap[scope.row.adType] }}</template>
+      </el-table-column>
 
       <el-table-column label="用户id" prop="userId" width="120"></el-table-column>
 
@@ -162,6 +164,11 @@ export default {
         "label": "激励广告",
         "value": "gift"
       }],
+      adTypeMap: {
+        "video": "视频",
+        "banner": "横幅",
+        "gift": "激励广告",
+      }
     };
   },
   filters: {
