@@ -61,6 +61,16 @@ mysql:
   max-open-conns: 10
   log-mode: false
 
+mysql_logic:
+  path: '127.0.0.1:3306'
+  config: 'charset=utf8mb4&parseTime=True&loc=Local'
+  db-name: 'Frozen'
+  username: 'jiebin'
+  password: '123456'
+  max-idle-conns: 10
+  max-open-conns: 10
+  log-mode: false
+
 # local configuration
 local:
   path: 'uploads/file'
