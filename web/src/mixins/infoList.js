@@ -1,4 +1,5 @@
-import { getDict } from "@/utils/dictionary";
+import {getDict} from "@/utils/dictionary";
+
 export default {
     data() {
         return {
@@ -10,13 +11,13 @@ export default {
         }
     },
     methods: {
-        filterDict(value,type){
-          const rowLabel = this[type+"Options"]&&this[type+"Options"].filter(item=>item.value == value)
-          return rowLabel&&rowLabel[0]&&rowLabel[0].label
+        filterDict(value, type) {
+            const rowLabel = this[type + "Options"] && this[type + "Options"].filter(item => item.value == value)
+            return rowLabel && rowLabel[0] && rowLabel[0].label
         },
-        async getDict(type){
+        async getDict(type) {
             const dicts = await getDict(type)
-            this[type+"Options"] = dicts
+            this[type + "Options"] = dicts
         },
         handleSizeChange(val) {
             this.pageSize = val
@@ -26,9 +27,9 @@ export default {
             this.page = val
             this.getTableData()
         },
-        async getTableData(page = this.page, pageSize = this.pageSize) {
-            const table = await this.listApi({ page, pageSize, ...this.searchInfo })
-            if(table.code == 0){
+        async getTableData(page = this.page, pageSize = this.pageSize, order = this.order, orderBy = this.orderBy) {
+            const table = await this.listApi({page, pageSize, order, orderBy, ...this.searchInfo})
+            if (table.code == 0) {
                 this.tableData = table.data.list
                 this.total = table.data.total
                 this.page = table.data.page

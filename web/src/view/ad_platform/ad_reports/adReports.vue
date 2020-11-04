@@ -47,17 +47,18 @@
         stripe
         style="width: 100%"
         tooltip-effect="dark"
+        @sort-change="onOrder"
     >
       <el-table-column type="selection" width="55"></el-table-column>
       <el-table-column label="日期" width="180">
         <template slot-scope="scope">{{ scope.row.CreatedAt|formatDate }}</template>
       </el-table-column>
 
-      <el-table-column label="平台" prop="platform" width="120"></el-table-column>
+      <el-table-column label="平台" prop="platform" width="120" sortable></el-table-column>
 
-      <el-table-column label="广告id" prop="adId" width="240"></el-table-column>
+      <el-table-column label="广告id" prop="adId" width="240" sortable></el-table-column>
 
-      <el-table-column label="广告类型" prop="adType" width="120" v-model="adTypeMap">
+      <el-table-column label="广告类型" prop="adType" width="120" v-model="adTypeMap" sortable>
         <template slot-scope="scope">{{ adTypeMap[scope.row.adType] }}</template>
       </el-table-column>
 
@@ -197,6 +198,11 @@ export default {
     onSubmit() {
       this.page = 1
       this.pageSize = 10
+      this.getTableData()
+    },
+    onOrder(scope) {
+      this.order = scope.prop;
+      this.orderBy = scope.order === "descending" ? "desc" : "asc";
       this.getTableData()
     },
     handleSelectionChange(val) {
