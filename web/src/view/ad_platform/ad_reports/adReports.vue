@@ -1,7 +1,8 @@
 <template>
   <div>
     <div class="search-term">
-      <el-form :inline="true" :model="searchInfo" class="demo-form-inline" @keyup.enter.native="onSubmit">
+      <el-form :inline="true" :model="searchInfo" class="demo-form-inline" @keyup.enter.native="onSubmit"
+               @keyup.esc.native="resetDialog">
         <el-form-item label="平台">
           <el-input placeholder="搜索条件" v-model="searchInfo.platform"></el-input>
         </el-form-item>
@@ -22,6 +23,9 @@
         </el-form-item>
         <el-form-item>
           <el-button @click="openDialog" type="primary">新增</el-button>
+        </el-form-item>
+        <el-form-item>
+          <el-button @click="resetDialog" type="primary">重置</el-button>
         </el-form-item>
         <el-form-item>
           <el-popover placement="top" v-model="deleteVisible" width="160">
@@ -269,6 +273,9 @@ export default {
     openDialog() {
       this.type = "create";
       this.dialogFormVisible = true;
+    },
+    resetDialog() {
+      this.searchInfo = {};
     }
   },
   async created() {
