@@ -10,3 +10,4 @@ gva.exe initdb
 @echo ##########Deleting gva.exe########################################
 del gva.exe
 @echo ##########Deleting gva.exe successfully###########################
+pause

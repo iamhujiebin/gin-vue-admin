@@ -54,9 +54,9 @@ captcha:
 mysql:
   path: '127.0.0.1:3306'
   config: 'charset=utf8mb4&parseTime=True&loc=Local'
-  db-name: 'qmPlus'
-  username: 'root'
-  password: 'Aa@6447985'
+  db-name: 'GinVueAdmin'
+  username: 'jiebin'
+  password: '123456'
   max-idle-conns: 10
   max-open-conns: 10
   log-mode: false
