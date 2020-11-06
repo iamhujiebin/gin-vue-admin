@@ -4,17 +4,17 @@
       <el-row :class="[isShadowBg?'shadowBg':'']" @click.native="changeShadow()"></el-row>
       <el-aside class="main-cont main-left">
         <div class="tilte">
-          <img alt class="logoimg" src="~@/assets/nav_logo.png" />
-          <h2 class="tit-text" v-if="isSider">Gin-Vue-Admin</h2>
+          <img alt class="logoimg" src="~@/assets/lufei.jpeg"/>
+          <h2 class="tit-text" v-if="isSider">Frozen-Admin</h2>
         </div>
-        <Aside class="aside" />
+        <Aside class="aside"/>
       </el-aside>
       <!-- 分块滑动功能 -->
       <el-main class="main-cont main-right">
         <transition :duration="{ enter: 800, leave: 100 }" mode="out-in" name="el-fade-in-linear">
           <div
-            :style="{width: `calc(100% - ${isMobile?'0px':isCollapse?'54px':'220px'})`}"
-            class="topfix"
+              :style="{width: `calc(100% - ${isMobile?'0px':isCollapse?'54px':'220px'})`}"
+              class="topfix"
           >
             <el-header class="header-cont">
               <div @click="totalCollapse" class="menu-total">
@@ -23,24 +23,25 @@
               </div>
               <el-breadcrumb class="breadcrumb" separator-class="el-icon-arrow-right">
                 <el-breadcrumb-item
-                  :key="item.path"
-                  v-for="item in matched.slice(1,matched.length)"
-                >{{item.meta.title}}</el-breadcrumb-item>
+                    :key="item.path"
+                    v-for="item in matched.slice(1,matched.length)"
+                >{{ item.meta.title }}
+                </el-breadcrumb-item>
               </el-breadcrumb>
               <div class="fl-right right-box">
-                <Search />
+                <Search/>
                 <Screenfull class="screenfull"></Screenfull>
                 <el-dropdown>
                   <span class="header-avatar">
                     欢迎您，<CustomPic/>
-                    <span style="margin-left: 5px">{{userInfo.nickName}}</span>
+                    <span style="margin-left: 5px">{{ userInfo.nickName }}</span>
                     <i class="el-icon-arrow-down"></i>
                   </span>
                   <el-dropdown-menu class="dropdown-group" slot="dropdown">
                     <el-dropdown-item>
                       <span>
                         更多信息
-                        <el-badge is-dot />
+                        <el-badge is-dot/>
                       </span>
                     </el-dropdown-item>
                     <el-dropdown-item @click.native="showPassword=true" icon="el-icon-s-custom">修改密码</el-dropdown-item>
@@ -53,18 +54,20 @@
             <!-- 当前面包屑用路由自动生成可根据需求修改 -->
             <!--
             :to="{ path: item.path }" 暂时注释不用-->
-            <HistoryComponent />
+            <HistoryComponent/>
           </div>
         </transition>
         <transition mode="out-in" name="el-fade-in-linear">
           <keep-alive>
-            <router-view  v-loading="loadingFlag"  element-loading-text="正在加载中" class="admin-box" v-if="$route.meta.keepAlive"></router-view>
+            <router-view v-loading="loadingFlag" element-loading-text="正在加载中" class="admin-box"
+                         v-if="$route.meta.keepAlive"></router-view>
           </keep-alive>
         </transition>
         <transition mode="out-in" name="el-fade-in-linear">
-          <router-view  v-loading="loadingFlag"  element-loading-text="正在加载中" class="admin-box" v-if="!$route.meta.keepAlive"></router-view>
+          <router-view v-loading="loadingFlag" element-loading-text="正在加载中" class="admin-box"
+                       v-if="!$route.meta.keepAlive"></router-view>
         </transition>
-       <BottomInfo />
+        <BottomInfo/>
       </el-main>
     </el-container>
     <el-dialog :visible.sync="showPassword" @close="clearPassword" title="修改密码" width="360px">
@@ -93,9 +96,10 @@ import HistoryComponent from '@/view/layout/aside/historyComponent/history'
 import Screenfull from '@/view/layout/screenfull'
 import Search from '@/view/layout/search/search'
 import BottomInfo from '@/view/layout/bottomInfo/bottomInfo'
-import { mapGetters, mapActions } from 'vuex'
-import { changePassword } from '@/api/user'
+import {mapGetters, mapActions} from 'vuex'
+import {changePassword} from '@/api/user'
 import CustomPic from '@/components/customPic'
+
 export default {
   name: 'Layout',
   data() {
@@ -106,20 +110,20 @@ export default {
       isMobile: false,
       isShadowBg: false,
       showPassword: false,
-      loadingFlag:false,
+      loadingFlag: false,
       pwdModify: {},
       rules: {
         password: [
-          { required: true, message: '请输入密码', trigger: 'blur' },
-          { min: 6, message: '最少6个字符', trigger: 'blur' }
+          {required: true, message: '请输入密码', trigger: 'blur'},
+          {min: 6, message: '最少6个字符', trigger: 'blur'}
         ],
         newPassword: [
-          { required: true, message: '请输入新密码', trigger: 'blur' },
-          { min: 6, message: '最少6个字符', trigger: 'blur' }
+          {required: true, message: '请输入新密码', trigger: 'blur'},
+          {min: 6, message: '最少6个字符', trigger: 'blur'}
         ],
         confirmPassword: [
-          { required: true, message: '请输入确认密码', trigger: 'blur' },
-          { min: 6, message: '最少6个字符', trigger: 'blur' },
+          {required: true, message: '请输入确认密码', trigger: 'blur'},
+          {min: 6, message: '最少6个字符', trigger: 'blur'},
           {
             validator: (rule, value, callback) => {
               if (value !== this.pwdModify.newPassword) {
@@ -152,7 +156,7 @@ export default {
       this.$bus.emit('collapse', this.isCollapse)
     },
     toPerson() {
-      this.$router.push({ name: 'person' })
+      this.$router.push({name: 'person'})
     },
     changeShadow() {
       this.isShadowBg = !this.isShadowBg
@@ -210,10 +214,10 @@ export default {
     }
     this.$bus.emit('collapse', this.isCollapse)
     this.$bus.emit('mobile', this.isMobile)
-    this.$bus.on("showLoading",()=>{
+    this.$bus.on("showLoading", () => {
       this.loadingFlag = true
     })
-    this.$bus.on("closeLoading",()=>{
+    this.$bus.on("closeLoading", () => {
       this.loadingFlag = false
     })
     window.onresize = () => {
@@ -246,24 +250,29 @@ $mainHight: 100vh;
 .dropdown-group {
   min-width: 100px;
 }
+
 .topfix {
   position: fixed;
   top: 0;
   box-sizing: border-box;
   z-index: 999;
 }
+
 .admin-box {
   min-height: calc(100vh - 240px);
   background-color: rgb(255, 255, 255);
   margin-top: 100px;
 }
+
 .el-scrollbar__wrap {
   padding-bottom: 17px;
 }
+
 .layout-cont {
   .right-box {
     text-align: center;
     vertical-align: middle;
+
     img {
       vertical-align: middle;
       border: 1px solid #ccc;
@@ -277,6 +286,7 @@ $mainHight: 100vh;
     box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
     line-height: $headerHigh;
   }
+
   .main-cont {
     .breadcrumb {
       line-height: 48px;
@@ -292,9 +302,11 @@ $mainHight: 100vh;
       // padding: 0px 10px;
       // background: #fff;
     }
+
     height: $mainHight !important;
     overflow: visible;
     position: relative;
+
     .menu-total {
       // z-index: 5;
       // position: absolute;
@@ -311,6 +323,7 @@ $mainHight: 100vh;
       // border-radius: 50%;
       // background: #fff;
     }
+
     .aside {
       overflow: auto;
       // background: #fff;
@@ -318,15 +331,19 @@ $mainHight: 100vh;
         display: none;
       }
     }
+
     .el-menu-vertical {
       height: calc(100vh - 64px) !important;
       visibility: auto;
+
       &:not(.el-menu--collapse) {
         width: 220px;
       }
     }
+
     .el-menu--collapse {
       width: 54px;
+
       li {
         .el-tooltip,
         .el-submenu__title {
@@ -334,21 +351,26 @@ $mainHight: 100vh;
         }
       }
     }
+
     &::-webkit-scrollbar {
       display: none;
     }
+
     &.main-left {
       width: auto !important;
     }
+
     &.main-right {
       .admin-title {
         float: left;
         font-size: 16px;
         vertical-align: middle;
         margin-left: 20px;
+
         img {
           vertical-align: middle;
         }
+
         &.collapse {
           width: 53px;
         }
@@ -356,12 +378,14 @@ $mainHight: 100vh;
     }
   }
 }
+
 .tilte {
   background: #001529;
   min-height: 64px;
   line-height: 64px;
   background: #002140;
   text-align: center;
+
   .logoimg {
     width: 30px;
     height: 30px;
@@ -370,12 +394,14 @@ $mainHight: 100vh;
     border-radius: 50%;
     padding: 3px;
   }
+
   .tit-text {
     display: inline-block;
     color: #fff;
     font-weight: 600;
     font-size: 20px;
     vertical-align: middle;
+    margin-left: 5px;
   }
 }
 
@@ -383,9 +409,10 @@ $mainHight: 100vh;
 .screenfull {
   display: inline-block;
 }
-.header-avatar{
-	display: flex;
-	justify-content: center;
-	align-items: center;
+
+.header-avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
