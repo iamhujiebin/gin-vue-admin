@@ -1,9 +1,11 @@
 package service
 
 import (
+	"fmt"
 	"gin-vue-admin/global"
 	"gin-vue-admin/model"
 	"gin-vue-admin/model/request"
+	"gin-vue-admin/utils"
 )
 
 // @title    CreateAdEvents
@@ -95,6 +97,9 @@ func GetAdEventsInfoList(info request.AdEventsSearch) (err error, list interface
 	}
 	if !info.UpdateTime.IsZero() {
 		db = db.Where("`update_time` <> ?", info.UpdateTime)
+	}
+	if len(info.Order) > 0 && len(info.OrderBy) > 0 {
+		db = db.Order(fmt.Sprintf("%s %s", utils.Camel2Case(info.Order), info.OrderBy))
 	}
 	err = db.Count(&total).Error
 	err = db.Limit(limit).Offset(offset).Find(&adEventss).Error

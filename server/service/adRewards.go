@@ -1,9 +1,11 @@
 package service
 
 import (
+	"fmt"
 	"gin-vue-admin/global"
 	"gin-vue-admin/model"
 	"gin-vue-admin/model/request"
+	"gin-vue-admin/utils"
 )
 
 // @title    CreateAdRewards
@@ -89,6 +91,9 @@ func GetAdRewardsInfoList(info request.AdRewardsSearch) (err error, list interfa
 	}
 	if info.AdChannel != "" {
 		db = db.Where("`ad_channel` = ?", info.AdChannel)
+	}
+	if len(info.Order) > 0 && len(info.OrderBy) > 0 {
+		db = db.Order(fmt.Sprintf("%s %s", utils.Camel2Case(info.Order), info.OrderBy))
 	}
 	err = db.Count(&total).Error
 	err = db.Limit(limit).Offset(offset).Find(&adRewardss).Error

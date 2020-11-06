@@ -1,9 +1,11 @@
 package service
 
 import (
+	"fmt"
 	"gin-vue-admin/global"
 	"gin-vue-admin/model"
 	"gin-vue-admin/model/request"
+	"gin-vue-admin/utils"
 )
 
 // @title    CreateAdStrategy
@@ -87,6 +89,9 @@ func GetAdStrategyInfoList(info request.AdStrategySearch) (err error, list inter
     if info.Operator != "" {
         db = db.Where("`operator` LIKE ?","%"+ info.Operator+"%")
     }
+	if len(info.Order) > 0 && len(info.OrderBy) > 0 {
+		db = db.Order(fmt.Sprintf("%s %s", utils.Camel2Case(info.Order), info.OrderBy))
+	}
 	err = db.Count(&total).Error
 	err = db.Limit(limit).Offset(offset).Find(&adStrategys).Error
 	return err, adStrategys, total

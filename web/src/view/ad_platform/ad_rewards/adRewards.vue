@@ -1,7 +1,8 @@
 <template>
   <div>
     <div class="search-term">
-      <el-form :inline="true" :model="searchInfo" class="demo-form-inline">
+      <el-form :inline="true" :model="searchInfo" class="demo-form-inline" @keyup.enter.native="onSubmit"
+               @keyup.esc.native="resetDialog">
         <el-form-item label="用户id">
           <el-input placeholder="搜索条件" v-model="searchInfo.userId"></el-input>
         </el-form-item>
@@ -27,7 +28,10 @@
           <el-button @click="onSubmit" type="primary">查询</el-button>
         </el-form-item>
         <el-form-item>
-          <el-button @click="openDialog" type="primary">新增adRewards表</el-button>
+          <el-button @click="openDialog" type="primary">新增adRewards</el-button>
+        </el-form-item>
+        <el-form-item>
+          <el-button @click="resetDialog" type="primary">重置</el-button>
         </el-form-item>
         <el-form-item>
           <el-popover placement="top" v-model="deleteVisible" width="160">
@@ -49,18 +53,19 @@
         stripe
         style="width: 100%"
         tooltip-effect="dark"
+        @sort-change="onOrder"
     >
       <el-table-column type="selection" width="55"></el-table-column>
 
-      <el-table-column label="用户id" prop="userId" width="120"></el-table-column>
+      <el-table-column label="用户id" prop="userId" width="120" sortable></el-table-column>
 
       <el-table-column label="设备id" prop="guestId" width="120"></el-table-column>
 
-      <el-table-column label="广告id" prop="adId" width="120"></el-table-column>
+      <el-table-column label="广告id" prop="adId" width="120" sortable></el-table-column>
 
-      <el-table-column label="创建时间" prop="createTime" width="120"></el-table-column>
+      <el-table-column label="创建时间" prop="createTime" width="120" sortable></el-table-column>
 
-      <el-table-column label="更新时间" prop="updateTime" width="120"></el-table-column>
+      <el-table-column label="更新时间" prop="updateTime" width="120" sortable></el-table-column>
 
       <el-table-column label="奖励明细" prop="rewardDetail" width="120"></el-table-column>
 
@@ -193,6 +198,11 @@ export default {
       this.pageSize = 10
       this.getTableData()
     },
+    onOrder(scope) {
+      this.order = scope.prop;
+      this.orderBy = scope.order === "descending" ? "desc" : "asc";
+      this.getTableData()
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val
     },
@@ -268,6 +278,9 @@ export default {
     openDialog() {
       this.type = "create";
       this.dialogFormVisible = true;
+    },
+    resetDialog() {
+      this.searchInfo = {};
     }
   },
   async created() {
