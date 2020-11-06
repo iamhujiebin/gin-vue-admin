@@ -62,7 +62,16 @@
         <template slot-scope="scope">{{ scope.row.status|formatBoolean }}</template>
       </el-table-column>
 
-      <el-table-column label="广告策略" prop="strategy" width="120"></el-table-column>
+      <el-table-column label="广告策略" prop="strategy" width="420">
+        <template slot-scope="scope">
+          <json-viewer
+              :value="parseJsonBody(scope.row.strategy)"
+              :expand-depth=5
+              copyable
+              boxed
+              sort></json-viewer>
+        </template>
+      </el-table-column>
 
       <el-table-column label="创建时间" prop="createTime" width="120"></el-table-column>
 
@@ -114,7 +123,14 @@
         </el-form-item>
 
         <el-form-item label="广告策略:">
-          <el-input v-model="formData.strategy" clearable placeholder="请输入"></el-input>
+          <JsonEditor
+              :options="{
+            confirmText: 'confirm',
+            cancelText: 'cancel',
+        }"
+              :objData="parseJsonBody(formData.strategy)"
+              v-model="formData.strategy">
+          </JsonEditor>
         </el-form-item>
 
         <el-form-item label="创建时间:">
@@ -167,7 +183,12 @@ export default {
         createTime: new Date(),
         updateTime: new Date(),
         operator: "",
-
+      },
+      jsonData: {
+        name: 'mike',
+        age: 23,
+        phone: '18552129932',
+        address: ['AAA C1', 'BBB C2']
       }
     };
   },
@@ -251,6 +272,7 @@ export default {
     },
     async enterDialog() {
       let res;
+      this.formData.strategy = JSON.stringify(this.formData.strategy)
       switch (this.type) {
         case "create":
           res = await createAdStrategy(this.formData);
@@ -274,6 +296,13 @@ export default {
     openDialog() {
       this.type = "create";
       this.dialogFormVisible = true;
+    },
+    parseJsonBody(value) {
+      try {
+        return JSON.parse(value)
+      } catch (err) {
+        return value
+      }
     }
   },
   async created() {

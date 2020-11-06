@@ -40,6 +40,10 @@ import Bus from '@/utils/bus.js'
 Vue.use(Bus)
 
 import APlayer from '@moefe/vue-aplayer';
+import JsonViewer from 'vue-json-viewer'
+Vue.use(JsonViewer)
+import JsonEditor from 'vue-json-edit'
+Vue.use(JsonEditor)
 
 Vue.use(APlayer, {
     defaultCover: 'https://github.com/u3u.png',
