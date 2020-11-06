@@ -10,18 +10,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// @Tags AdReports
-// @Summary 创建AdReports
+// @Tags AdRewards
+// @Summary 创建AdRewards
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body model.AdReports true "创建AdReports"
+// @Param data body model.AdRewards true "创建AdRewards"
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"获取成功"}"
-// @Router /adReports/createAdReports [post]
-func CreateAdReports(c *gin.Context) {
-	var adReports model.AdReports
-	_ = c.ShouldBindJSON(&adReports)
-	err := service.CreateAdReports(adReports)
+// @Router /adRewards/createAdRewards [post]
+func CreateAdRewards(c *gin.Context) {
+	var adRewards model.AdRewards
+	_ = c.ShouldBindJSON(&adRewards)
+	err := service.CreateAdRewards(adRewards)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("创建失败，%v", err), c)
 	} else {
@@ -29,18 +29,18 @@ func CreateAdReports(c *gin.Context) {
 	}
 }
 
-// @Tags AdReports
-// @Summary 删除AdReports
+// @Tags AdRewards
+// @Summary 删除AdRewards
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body model.AdReports true "删除AdReports"
+// @Param data body model.AdRewards true "删除AdRewards"
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"删除成功"}"
-// @Router /adReports/deleteAdReports [delete]
-func DeleteAdReports(c *gin.Context) {
-	var adReports model.AdReports
-	_ = c.ShouldBindJSON(&adReports)
-	err := service.DeleteAdReports(adReports)
+// @Router /adRewards/deleteAdRewards [delete]
+func DeleteAdRewards(c *gin.Context) {
+	var adRewards model.AdRewards
+	_ = c.ShouldBindJSON(&adRewards)
+	err := service.DeleteAdRewards(adRewards)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("删除失败，%v", err), c)
 	} else {
@@ -48,18 +48,18 @@ func DeleteAdReports(c *gin.Context) {
 	}
 }
 
-// @Tags AdReports
-// @Summary 批量删除AdReports
+// @Tags AdRewards
+// @Summary 批量删除AdRewards
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body request.IdsReq true "批量删除AdReports"
+// @Param data body request.IdsReq true "批量删除AdRewards"
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"删除成功"}"
-// @Router /adReports/deleteAdReportsByIds [delete]
-func DeleteAdReportsByIds(c *gin.Context) {
+// @Router /adRewards/deleteAdRewardsByIds [delete]
+func DeleteAdRewardsByIds(c *gin.Context) {
 	var IDS request.IdsReq
-	_ = c.ShouldBindJSON(&IDS)
-	err := service.DeleteAdReportsByIds(IDS)
+    _ = c.ShouldBindJSON(&IDS)
+	err := service.DeleteAdRewardsByIds(IDS)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("删除失败，%v", err), c)
 	} else {
@@ -67,18 +67,18 @@ func DeleteAdReportsByIds(c *gin.Context) {
 	}
 }
 
-// @Tags AdReports
-// @Summary 更新AdReports
+// @Tags AdRewards
+// @Summary 更新AdRewards
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body model.AdReports true "更新AdReports"
+// @Param data body model.AdRewards true "更新AdRewards"
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"更新成功"}"
-// @Router /adReports/updateAdReports [put]
-func UpdateAdReports(c *gin.Context) {
-	var adReports model.AdReports
-	_ = c.ShouldBindJSON(&adReports)
-	err := service.UpdateAdReports(&adReports)
+// @Router /adRewards/updateAdRewards [put]
+func UpdateAdRewards(c *gin.Context) {
+	var adRewards model.AdRewards
+	_ = c.ShouldBindJSON(&adRewards)
+	err := service.UpdateAdRewards(&adRewards)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("更新失败，%v", err), c)
 	} else {
@@ -86,37 +86,37 @@ func UpdateAdReports(c *gin.Context) {
 	}
 }
 
-// @Tags AdReports
-// @Summary 用id查询AdReports
+// @Tags AdRewards
+// @Summary 用id查询AdRewards
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body model.AdReports true "用id查询AdReports"
+// @Param data body model.AdRewards true "用id查询AdRewards"
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"查询成功"}"
-// @Router /adReports/findAdReports [get]
-func FindAdReports(c *gin.Context) {
-	var adReports model.AdReports
-	_ = c.ShouldBindQuery(&adReports)
-	err, readReports := service.GetAdReports(adReports.ID)
+// @Router /adRewards/findAdRewards [get]
+func FindAdRewards(c *gin.Context) {
+	var adRewards model.AdRewards
+	_ = c.ShouldBindQuery(&adRewards)
+	err, readRewards := service.GetAdRewards(adRewards.ID)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("查询失败，%v", err), c)
 	} else {
-		response.OkWithData(gin.H{"readReports": readReports}, c)
+		response.OkWithData(gin.H{"readRewards": readRewards}, c)
 	}
 }
 
-// @Tags AdReports
-// @Summary 分页获取AdReports列表
+// @Tags AdRewards
+// @Summary 分页获取AdRewards列表
 // @Security ApiKeyAuth
 // @accept application/json
 // @Produce application/json
-// @Param data body request.AdReportsSearch true "分页获取AdReports列表"
+// @Param data body request.AdRewardsSearch true "分页获取AdRewards列表"
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"获取成功"}"
-// @Router /adReports/getAdReportsList [get]
-func GetAdReportsList(c *gin.Context) {
-	var pageInfo request.AdReportsSearch
+// @Router /adRewards/getAdRewardsList [get]
+func GetAdRewardsList(c *gin.Context) {
+	var pageInfo request.AdRewardsSearch
 	_ = c.ShouldBindQuery(&pageInfo)
-	err, list, total := service.GetAdReportsInfoList(pageInfo)
+	err, list, total := service.GetAdRewardsInfoList(pageInfo)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("获取数据失败，%v", err), c)
 	} else {

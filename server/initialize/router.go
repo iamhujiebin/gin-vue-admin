@@ -43,7 +43,10 @@ func Routers() *gin.Engine {
 	router.InitSysOperationRecordRouter(ApiGroup)    // 操作记录
 	router.InitEmailRouter(ApiGroup)                 // 邮件相关路由
 
-	router.InitAdReportsRouter(ApiGroup) //广告平台-广告事件
+	router.InitAdReportsRouter(ApiGroup)  //广告平台-广告事件
+	router.InitAdEventsRouter(ApiGroup)   //广告平台-广告事件
+	router.InitAdRewardsRouter(ApiGroup)  //广告平台-激励广告
+	router.InitAdStrategyRouter(ApiGroup) //广告平台-下发策略
 
 	global.GVA_LOG.Info("router register success")
 	return Router

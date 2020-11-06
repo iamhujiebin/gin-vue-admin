@@ -1,31 +1,35 @@
 <template>
   <div>
     <div class="search-term">
-      <el-form :inline="true" :model="searchInfo" class="demo-form-inline" @keyup.enter.native="onSubmit"
-               @keyup.esc.native="resetDialog">
+      <el-form :inline="true" :model="searchInfo" class="demo-form-inline">
+        <el-form-item label="用户类型">
+          <el-input placeholder="搜索条件" v-model="searchInfo.userRole"></el-input>
+        </el-form-item>
         <el-form-item label="平台">
           <el-input placeholder="搜索条件" v-model="searchInfo.platform"></el-input>
         </el-form-item>
-        <el-form-item label="广告id">
-          <el-input placeholder="搜索条件" v-model="searchInfo.adId"></el-input>
+        <el-form-item label="生效 " prop="status">
+          <el-select v-model="searchInfo.status" clear placeholder="请选择">
+            <el-option
+                key="true"
+                label="是"
+                value="true">
+            </el-option>
+            <el-option
+                key="false"
+                label="否"
+                value="false">
+            </el-option>
+          </el-select>
         </el-form-item>
-        <el-form-item label="广告类型">
-          <el-input placeholder="搜索条件" v-model="searchInfo.adType"></el-input>
-        </el-form-item>
-        <el-form-item label="用户id">
-          <el-input placeholder="搜索条件" v-model="searchInfo.userId"></el-input>
-        </el-form-item>
-        <el-form-item label="设备id">
-          <el-input placeholder="搜索条件" v-model="searchInfo.guestId"></el-input>
+        <el-form-item label="操作人">
+          <el-input placeholder="搜索条件" v-model="searchInfo.operator"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button @click="onSubmit" type="primary">查询</el-button>
         </el-form-item>
         <el-form-item>
-          <el-button @click="openDialog" type="primary">新增</el-button>
-        </el-form-item>
-        <el-form-item>
-          <el-button @click="resetDialog" type="primary">重置</el-button>
+          <el-button @click="openDialog" type="primary">新增adStrategy表</el-button>
         </el-form-item>
         <el-form-item>
           <el-popover placement="top" v-model="deleteVisible" width="160">
@@ -47,32 +51,35 @@
         stripe
         style="width: 100%"
         tooltip-effect="dark"
-        @sort-change="onOrder"
     >
       <el-table-column type="selection" width="55"></el-table-column>
 
-      <el-table-column label="平台" prop="platform" width="120" sortable></el-table-column>
+      <el-table-column label="用户类型" prop="userRole" width="120"></el-table-column>
 
-      <el-table-column label="广告id" prop="adId" width="240" sortable></el-table-column>
+      <el-table-column label="平台" prop="platform" width="120"></el-table-column>
 
-      <el-table-column label="广告类型" prop="adType" width="120" v-model="adTypeMap" sortable>
-        <template slot-scope="scope">{{ adTypeMap[scope.row.adType] }}</template>
+      <el-table-column label="生效 " prop="status" width="120">
+        <template slot-scope="scope">{{ scope.row.status|formatBoolean }}</template>
       </el-table-column>
 
-      <el-table-column label="用户id" prop="userId" width="120"></el-table-column>
+      <el-table-column label="广告策略" prop="strategy" width="120"></el-table-column>
 
-      <el-table-column label="设备id" prop="guestId" width="240"></el-table-column>
+      <el-table-column label="创建时间" prop="createTime" width="120"></el-table-column>
+
+      <el-table-column label="更新时间" prop="updateTime" width="120"></el-table-column>
+
+      <el-table-column label="操作人" prop="operator" width="120"></el-table-column>
 
       <el-table-column label="按钮组">
         <template slot-scope="scope">
-          <el-button class="table-button" @click="updateAdReports(scope.row)" size="small" type="primary"
+          <el-button class="table-button" @click="updateAdStrategy(scope.row)" size="small" type="primary"
                      icon="el-icon-edit">变更
           </el-button>
           <el-popover placement="top" width="160" v-model="scope.row.visible">
             <p>确定要删除吗？</p>
             <div style="text-align: right; margin: 0">
               <el-button size="mini" type="text" @click="scope.row.visible = false">取消</el-button>
-              <el-button type="primary" size="mini" @click="deleteAdReports(scope.row)">确定</el-button>
+              <el-button type="primary" size="mini" @click="deleteAdStrategy(scope.row)">确定</el-button>
             </div>
             <el-button type="danger" icon="el-icon-delete" size="mini" slot="reference">删除</el-button>
           </el-popover>
@@ -93,30 +100,33 @@
 
     <el-dialog :before-close="closeDialog" :visible.sync="dialogFormVisible" title="弹窗操作">
       <el-form :model="formData" label-position="right" label-width="80px">
+        <el-form-item label="用户类型:">
+          <el-input v-model="formData.userRole" clearable placeholder="请输入"></el-input>
+        </el-form-item>
+
         <el-form-item label="平台:">
           <el-input v-model="formData.platform" clearable placeholder="请输入"></el-input>
         </el-form-item>
 
-        <el-form-item label="广告id:">
-          <el-input v-model="formData.adId" clearable placeholder="请输入"></el-input>
+        <el-form-item label="生效 :">
+          <el-switch active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否"
+                     v-model="formData.status" clearable></el-switch>
         </el-form-item>
 
-        <!--        <el-form-item label="广告类型:">-->
-        <!--          <el-input v-model="formData.adType" clearable placeholder="请输入"></el-input>-->
-        <!--        </el-form-item>-->
-        <el-form-item label="广告类型:" prop="adType">
-          <el-select v-model="formData.adType" placeholder="请输入" clearable :style="{width: '100%'}">
-            <el-option v-for="(item, index) in adTypeOptions" :key="index" :label="item.label"
-                       :value="item.value" :disabled="item.disabled"></el-option>
-          </el-select>
+        <el-form-item label="广告策略:">
+          <el-input v-model="formData.strategy" clearable placeholder="请输入"></el-input>
         </el-form-item>
 
-        <el-form-item label="用户id:">
-          <el-input v-model.number="formData.userId" clearable placeholder="请输入"></el-input>
+        <el-form-item label="创建时间:">
+          <el-date-picker type="date" placeholder="选择日期" v-model="formData.createTime" clearable></el-date-picker>
         </el-form-item>
 
-        <el-form-item label="设备id:">
-          <el-input v-model="formData.guestId" clearable placeholder="请输入"></el-input>
+        <el-form-item label="更新时间:">
+          <el-date-picker type="date" placeholder="选择日期" v-model="formData.updateTime" clearable></el-date-picker>
+        </el-form-item>
+
+        <el-form-item label="操作人:">
+          <el-input v-model="formData.operator" clearable placeholder="请输入"></el-input>
         </el-form-item>
       </el-form>
       <div class="dialog-footer" slot="footer">
@@ -129,47 +139,35 @@
 
 <script>
 import {
-  createAdReports,
-  deleteAdReports,
-  deleteAdReportsByIds,
-  updateAdReports,
-  findAdReports,
-  getAdReportsList
-} from "@/api/adReports";  //  此处请自行替换地址
+  createAdStrategy,
+  deleteAdStrategy,
+  deleteAdStrategyByIds,
+  updateAdStrategy,
+  findAdStrategy,
+  getAdStrategyList
+} from "@/api/adStrategy";  //  此处请自行替换地址
 import {formatTimeToStr} from "@/utils/date";
 import infoList from "@/mixins/infoList";
 
 export default {
-  name: "AdReports",
+  name: "AdStrategy",
   mixins: [infoList],
   data() {
     return {
-      listApi: getAdReportsList,
+      listApi: getAdStrategyList,
       dialogFormVisible: false,
       visible: false,
       type: "",
       deleteVisible: false,
       multipleSelection: [], formData: {
+        userRole: "",
         platform: "",
-        adId: "",
-        adType: "",
-        userId: 0,
-        guestId: "",
-      },
-      adTypeOptions: [{
-        "label": "视频",
-        "value": "video"
-      }, {
-        "label": "横幅",
-        "value": "banner"
-      }, {
-        "label": "激励广告",
-        "value": "gift"
-      }],
-      adTypeMap: {
-        "video": "视频",
-        "banner": "横幅",
-        "gift": "激励广告",
+        status: false,
+        strategy: "",
+        createTime: new Date(),
+        updateTime: new Date(),
+        operator: "",
+
       }
     };
   },
@@ -195,11 +193,9 @@ export default {
     onSubmit() {
       this.page = 1
       this.pageSize = 10
-      this.getTableData()
-    },
-    onOrder(scope) {
-      this.order = scope.prop;
-      this.orderBy = scope.order === "descending" ? "desc" : "asc";
+      if (this.searchInfo.status == "") {
+        this.searchInfo.status = null
+      }
       this.getTableData()
     },
     handleSelectionChange(val) {
@@ -211,7 +207,7 @@ export default {
       this.multipleSelection.map(item => {
         ids.push(item.ID)
       })
-      const res = await deleteAdReportsByIds({ids})
+      const res = await deleteAdStrategyByIds({ids})
       if (res.code == 0) {
         this.$message({
           type: 'success',
@@ -221,28 +217,30 @@ export default {
         this.getTableData()
       }
     },
-    async updateAdReports(row) {
-      const res = await findAdReports({ID: row.ID});
+    async updateAdStrategy(row) {
+      const res = await findAdStrategy({ID: row.ID});
       this.type = "update";
       if (res.code == 0) {
-        this.formData = res.data.readReports;
+        this.formData = res.data.readStrategy;
         this.dialogFormVisible = true;
       }
     },
     closeDialog() {
       this.dialogFormVisible = false;
       this.formData = {
+        userRole: "",
         platform: "",
-        adId: "",
-        adType: "",
-        userId: 0,
-        guestId: "",
+        status: false,
+        strategy: "",
+        createTime: new Date(),
+        updateTime: new Date(),
+        operator: "",
 
       };
     },
-    async deleteAdReports(row) {
+    async deleteAdStrategy(row) {
       this.visible = false;
-      const res = await deleteAdReports({ID: row.ID});
+      const res = await deleteAdStrategy({ID: row.ID});
       if (res.code == 0) {
         this.$message({
           type: "success",
@@ -255,13 +253,13 @@ export default {
       let res;
       switch (this.type) {
         case "create":
-          res = await createAdReports(this.formData);
+          res = await createAdStrategy(this.formData);
           break;
         case "update":
-          res = await updateAdReports(this.formData);
+          res = await updateAdStrategy(this.formData);
           break;
         default:
-          res = await createAdReports(this.formData);
+          res = await createAdStrategy(this.formData);
           break;
       }
       if (res.code == 0) {
@@ -276,9 +274,6 @@ export default {
     openDialog() {
       this.type = "create";
       this.dialogFormVisible = true;
-    },
-    resetDialog() {
-      this.searchInfo = {};
     }
   },
   async created() {
