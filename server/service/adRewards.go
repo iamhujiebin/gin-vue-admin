@@ -87,6 +87,9 @@ func GetAdRewardsInfoList(info request.AdRewardsSearch) (err error, list interfa
 	if info.AdType != "" {
 		db = db.Where("`ad_type` = ?", info.AdType)
 	}
+	if info.AdChannel != "" {
+		db = db.Where("`ad_channel` = ?", info.AdChannel)
+	}
 	err = db.Count(&total).Error
 	err = db.Limit(limit).Offset(offset).Find(&adRewardss).Error
 	return err, adRewardss, total

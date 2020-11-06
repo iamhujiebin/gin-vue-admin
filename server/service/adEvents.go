@@ -35,7 +35,7 @@ func DeleteAdEvents(adEvents model.AdEvents) (err error) {
 // @return                    error
 
 func DeleteAdEventsByIds(ids request.IdsReq) (err error) {
-	err = global.GVA_DB_LOGIC.Delete(&[]model.AdEvents{},"id in ?",ids.Ids).Error
+	err = global.GVA_DB_LOGIC.Delete(&[]model.AdEvents{}, "id in ?", ids.Ids).Error
 	return err
 }
 
@@ -71,28 +71,31 @@ func GetAdEvents(id uint) (err error, adEvents model.AdEvents) {
 func GetAdEventsInfoList(info request.AdEventsSearch) (err error, list interface{}, total int64) {
 	limit := info.PageSize
 	offset := info.PageSize * (info.Page - 1)
-    // 创建db
+	// 创建db
 	db := global.GVA_DB_LOGIC.Model(&model.AdEvents{})
-    var adEventss []model.AdEvents
-    // 如果有条件搜索 下方会自动创建搜索语句
-    if info.Platform != "" {
-        db = db.Where("`platform` = ?",info.Platform)
-    }
-    if info.AdId != "" {
-        db = db.Where("`ad_id` LIKE ?","%"+ info.AdId+"%")
-    }
-    if info.AdType != "" {
-        db = db.Where("`ad_type` = ?",info.AdType)
-    }
-    if info.AdAction != "" {
-        db = db.Where("`ad_action` = ?",info.AdAction)
-    }
-    if !info.CreateTime.IsZero() {
-         db = db.Where("`create_time` <> ?",info.CreateTime)
-    }
-    if !info.UpdateTime.IsZero() {
-         db = db.Where("`update_time` <> ?",info.UpdateTime)
-    }
+	var adEventss []model.AdEvents
+	// 如果有条件搜索 下方会自动创建搜索语句
+	if info.Platform != "" {
+		db = db.Where("`platform` = ?", info.Platform)
+	}
+	if info.AdId != "" {
+		db = db.Where("`ad_id` LIKE ?", "%"+info.AdId+"%")
+	}
+	if info.AdType != "" {
+		db = db.Where("`ad_type` = ?", info.AdType)
+	}
+	if info.AdAction != "" {
+		db = db.Where("`ad_action` = ?", info.AdAction)
+	}
+	if info.AdChannel != "" {
+		db = db.Where("`ad_channel` = ?", info.AdChannel)
+	}
+	if !info.CreateTime.IsZero() {
+		db = db.Where("`create_time` <> ?", info.CreateTime)
+	}
+	if !info.UpdateTime.IsZero() {
+		db = db.Where("`update_time` <> ?", info.UpdateTime)
+	}
 	err = db.Count(&total).Error
 	err = db.Limit(limit).Offset(offset).Find(&adEventss).Error
 	return err, adEventss, total

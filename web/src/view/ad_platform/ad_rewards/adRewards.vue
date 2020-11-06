@@ -20,6 +20,9 @@
         <el-form-item label="广告类型">
           <el-input placeholder="搜索条件" v-model="searchInfo.adType"></el-input>
         </el-form-item>
+        <el-form-item label="渠道">
+          <el-input placeholder="搜索条件" v-model="searchInfo.adChannel"></el-input>
+        </el-form-item>
         <el-form-item>
           <el-button @click="onSubmit" type="primary">查询</el-button>
         </el-form-item>
@@ -62,6 +65,8 @@
       <el-table-column label="奖励明细" prop="rewardDetail" width="120"></el-table-column>
 
       <el-table-column label="广告类型" prop="adType" width="120"></el-table-column>
+
+      <el-table-column label="渠道" prop="adChannel" width="120"></el-table-column>
 
       <el-table-column label="按钮组">
         <template slot-scope="scope">
@@ -118,6 +123,10 @@
         <el-form-item label="广告类型:">
           <el-input v-model="formData.adType" clearable placeholder="请输入"></el-input>
         </el-form-item>
+
+        <el-form-item label="广告类型:">
+          <el-input v-model="formData.adChannel" clearable placeholder="请输入"></el-input>
+        </el-form-item>
       </el-form>
       <div class="dialog-footer" slot="footer">
         <el-button @click="closeDialog">取 消</el-button>
@@ -156,7 +165,7 @@ export default {
         createTime: new Date(),
         updateTime: new Date(),
         adType: "",
-
+        adChannel: "",
       }
     };
   },

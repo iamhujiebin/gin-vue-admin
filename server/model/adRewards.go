@@ -16,6 +16,7 @@ type AdRewards struct {
 	UpdateTime   time.Time `json:"updateTime" form:"updateTime" gorm:"column:update_time;comment:更新时间;type:datetime;"`
 	RewardDetail string    `json:"rewardDetail" form:"rewardDetail" gorm:"column:reward_detail;comment:奖励明细;type:json;"`
 	AdType       string    `json:"adType" form:"adType" gorm:"column:ad_type;comment:广告类型;type:varchar(256);size:256;"`
+	AdChannel    string    `json:"adChannel" form:"adChannel" gorm:"column:ad_channel;comment:渠道，google/facebook;type:varchar(256);size:256;"`
 }
 
 func (AdRewards) TableName() string {
