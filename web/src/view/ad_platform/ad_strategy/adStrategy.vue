@@ -307,13 +307,6 @@ export default {
       this.type = "create";
       this.dialogFormVisible = true;
     },
-    parseJsonBody(value) {
-      try {
-        return JSON.parse(value)
-      } catch (err) {
-        return value
-      }
-    },
     resetDialog() {
       this.searchInfo = {};
     }

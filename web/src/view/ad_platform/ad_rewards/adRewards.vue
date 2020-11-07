@@ -67,7 +67,16 @@
 
       <el-table-column label="更新时间" prop="updateTime" width="120" sortable></el-table-column>
 
-      <el-table-column label="奖励明细" prop="rewardDetail" width="120"></el-table-column>
+      <el-table-column label="奖励明细" prop="rewardDetail" width="240">
+        <template slot-scope="scope">
+          <json-viewer
+              :value="parseJsonBody(scope.row.rewardDetail)"
+              :expand-depth=5
+              copyable
+              boxed
+              sort></json-viewer>
+        </template>
+      </el-table-column>
 
       <el-table-column label="广告类型" prop="adType" width="120"></el-table-column>
 
@@ -123,7 +132,14 @@
           <el-date-picker type="date" placeholder="选择日期" v-model="formData.updateTime" clearable></el-date-picker>
         </el-form-item>
 
-        <el-form-item label="奖励明细:"></el-form-item>
+        <el-form-item label="奖励明细:">
+          <json-viewer
+              :value="parseJsonBody(formData.rewardDetail)"
+              :expand-depth=5
+              copyable
+              boxed
+              sort></json-viewer>
+        </el-form-item>
 
         <el-form-item label="广告类型:">
           <el-input v-model="formData.adType" clearable placeholder="请输入"></el-input>
@@ -171,6 +187,7 @@ export default {
         updateTime: new Date(),
         adType: "",
         adChannel: "",
+        rewardDetail: "",
       }
     };
   },

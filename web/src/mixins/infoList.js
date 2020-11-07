@@ -35,6 +35,13 @@ export default {
                 this.page = table.data.page
                 this.pageSize = table.data.pageSize
             }
-        }
+        },
+        parseJsonBody(value) {
+            try {
+                return JSON.parse(value)
+            } catch (err) {
+                return value
+            }
+        },
     }
 }
