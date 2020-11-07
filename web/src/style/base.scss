@@ -1,60 +1,145 @@
 .clearflex {
-    *zoom: 1;
+  *zoom: 1;
 }
 
 .clearflex:after {
-    content: '';
-    display: block;
-    height: 0;
-    visibility: hidden;
-    clear: both;
+  content: '';
+  display: block;
+  height: 0;
+  visibility: hidden;
+  clear: both;
 }
 
 .fl-left {
-    float: left;
+  float: left;
 }
 
 .fl-right {
-    float: right;
+  float: right;
 }
 
 .mg {
-    margin: 10px !important;
+  margin: 10px !important;
 }
 
 .left-mg-xs {
-    margin-left: 6px !important;
+  margin-left: 6px !important;
 }
 
 .left-mg-sm {
-    margin-left: 10px !important;
+  margin-left: 10px !important;
 }
 
 .left-mg-md {
-    margin-left: 14px !important;
+  margin-left: 14px !important;
 }
 
 .top-mg-lg {
-    margin-top: 20px !important;
+  margin-top: 20px !important;
 }
 
 .tb-mg-lg {
-    margin: 20px 0 !important;
+  margin: 20px 0 !important;
 }
 
 .bottom-mg-lg {
-    margin-bottom: 20px !important;
+  margin-bottom: 20px !important;
 }
 
 .left-mg-lg {
-    margin-left: 18px !important;
+  margin-left: 18px !important;
 }
 
 .title-1 {
-    text-align: center;
-    font-size: 32px;
+  text-align: center;
+  font-size: 32px;
 }
 
 .title-3 {
-    text-align: center;
+  text-align: center;
+}
+
+// values are default one from jv-light template
+.my-awesome-json-theme {
+  background: white;
+  white-space: nowrap;
+  color: #525252;
+  font-size: 14px;
+  font-family: Consolas, Menlo, Courier, monospace;
+
+  .jv-ellipsis {
+    color: #999;
+    background-color: #eee;
+    display: inline-block;
+    line-height: 0.9;
+    font-size: 0.9em;
+    padding: 0px 4px 2px 4px;
+    border-radius: 3px;
+    vertical-align: 2px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .jv-button {
+    color: #49b3ff
+  }
+
+  .jv-key {
+    color: #111111
+  }
+
+  .jv-item {
+    &.jv-array {
+      color: #111111
+    }
+
+    &.jv-boolean {
+      color: #fc1e70
+    }
+
+    &.jv-function {
+      color: #067bca
+    }
+
+    &.jv-number {
+      color: #fc1e70
+    }
+
+    &.jv-number-float {
+      color: #fc1e70
+    }
+
+    &.jv-number-integer {
+      color: #fc1e70
+    }
+
+    &.jv-object {
+      color: #111111
+    }
+
+    &.jv-undefined {
+      color: #e08331
+    }
+
+    &.jv-string {
+      color: #42b983;
+      word-break: break-word;
+      white-space: normal;
+    }
+  }
+
+  .jv-code {
+    .jv-toggle {
+      &:before {
+        padding: 0px 2px;
+        border-radius: 2px;
+      }
+
+      &:hover {
+        &:before {
+          background: #eee;
+        }
+      }
+    }
+  }
 }

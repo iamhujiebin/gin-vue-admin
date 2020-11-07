@@ -74,6 +74,7 @@
               :expand-depth=5
               copyable
               boxed
+              theme="my-awesome-json-theme"
               sort></json-viewer>
         </template>
       </el-table-column>
