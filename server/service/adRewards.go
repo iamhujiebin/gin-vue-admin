@@ -86,11 +86,8 @@ func GetAdRewardsInfoList(info request.AdRewardsSearch) (err error, list interfa
 	if info.AdId != "" {
 		db = db.Where("`ad_id` LIKE ?", "%"+info.AdId+"%")
 	}
-	if info.AdType != "" {
-		db = db.Where("`ad_type` = ?", info.AdType)
-	}
-	if info.AdChannel != "" {
-		db = db.Where("`ad_channel` = ?", info.AdChannel)
+	if info.AdPlatform != "" {
+		db = db.Where("`ad_platform` = ?", info.AdPlatform)
 	}
 	if len(info.Order) > 0 && len(info.OrderBy) > 0 {
 		db = db.Order(fmt.Sprintf("%s %s", utils.Camel2Case(info.Order), info.OrderBy))

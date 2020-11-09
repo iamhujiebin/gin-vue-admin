@@ -89,8 +89,8 @@ func GetAdEventsInfoList(info request.AdEventsSearch) (err error, list interface
 	if info.AdAction != "" {
 		db = db.Where("`ad_action` = ?", info.AdAction)
 	}
-	if info.AdChannel != "" {
-		db = db.Where("`ad_channel` = ?", info.AdChannel)
+	if info.AdPlatform != "" {
+		db = db.Where("`ad_platform` = ?", info.AdPlatform)
 	}
 	if !info.CreateTime.IsZero() {
 		db = db.Where("`create_time` <> ?", info.CreateTime)

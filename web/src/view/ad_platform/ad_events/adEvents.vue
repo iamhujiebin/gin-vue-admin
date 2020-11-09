@@ -7,7 +7,7 @@
           <el-input placeholder="搜索条件" v-model="searchInfo.platform"></el-input>
         </el-form-item>
         <el-form-item label="渠道">
-          <el-input placeholder="搜索条件" v-model="searchInfo.adChannel"></el-input>
+          <el-input placeholder="搜索条件" v-model="searchInfo.adPlatform"></el-input>
         </el-form-item>
         <el-form-item label="广告id">
           <el-input placeholder="搜索条件" v-model="searchInfo.adId"></el-input>
@@ -59,7 +59,7 @@
 
       <el-table-column label="平台" prop="platform" width="120" sortable></el-table-column>
 
-      <el-table-column label="渠道" prop="adChannel" width="120" sortable></el-table-column>
+      <el-table-column label="渠道" prop="adPlatform" width="120" sortable></el-table-column>
 
       <el-table-column label="广告id" prop="adId" width="120"></el-table-column>
 
@@ -114,7 +114,7 @@
         </el-form-item>
 
         <el-form-item label="广告渠道:">
-          <el-input v-model="formData.adChannel" clearable placeholder="请输入"></el-input>
+          <el-input v-model="formData.adPlatform" clearable placeholder="请输入"></el-input>
         </el-form-item>
 
         <el-form-item label="广告类型:">
@@ -174,7 +174,7 @@ export default {
       multipleSelection: [], formData: {
         platform: "",
         adId: "",
-        adChannel: "",
+        adPlatform: "",
         adType: "",
         adAction: "",
         userId: 0,
