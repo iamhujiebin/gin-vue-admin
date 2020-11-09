@@ -1,11 +1,9 @@
 package service
 
 import (
-	"fmt"
 	"gin-vue-admin/global"
 	"gin-vue-admin/model"
 	"gin-vue-admin/model/request"
-	"gin-vue-admin/utils"
 )
 
 // @title    CreateAdStrategy
@@ -77,21 +75,24 @@ func GetAdStrategyInfoList(info request.AdStrategySearch) (err error, list inter
 	db := global.GVA_DB_LOGIC.Model(&model.AdStrategy{})
     var adStrategys []model.AdStrategy
     // 如果有条件搜索 下方会自动创建搜索语句
-    if info.UserRole != "" {
-        db = db.Where("`user_role` = ?",info.UserRole)
-    }
     if info.Platform != "" {
-        db = db.Where("`platform` = ?",info.Platform)
+        db = db.Where("`platform` LIKE ?","%"+ info.Platform+"%")
     }
-    if info.Status != nil {
-        db = db.Where("`status` = ?",info.Status)
+    if info.AdPlace != "" {
+        db = db.Where("`ad_place` = ?",info.AdPlace)
     }
-    if info.Operator != "" {
-        db = db.Where("`operator` LIKE ?","%"+ info.Operator+"%")
+    if info.AdType != "" {
+        db = db.Where("`ad_type` = ?",info.AdType)
     }
-	if len(info.Order) > 0 && len(info.OrderBy) > 0 {
-		db = db.Order(fmt.Sprintf("%s %s", utils.Camel2Case(info.Order), info.OrderBy))
-	}
+    if info.AdPlatform != "" {
+        db = db.Where("`ad_platform` LIKE ?","%"+ info.AdPlatform+"%")
+    }
+    if info.AdId != "" {
+        db = db.Where("`ad_id` LIKE ?","%"+ info.AdId+"%")
+    }
+    if info.Enable != nil {
+        db = db.Where("`enable` = ?",info.Enable)
+    }
 	err = db.Count(&total).Error
 	err = db.Limit(limit).Offset(offset).Find(&adStrategys).Error
 	return err, adStrategys, total

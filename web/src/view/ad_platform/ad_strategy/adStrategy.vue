@@ -3,14 +3,23 @@
     <div class="search-term">
       <el-form :inline="true" :model="searchInfo" class="demo-form-inline" @keyup.enter.native="onSubmit"
                @keyup.esc.native="resetDialog">
-        <el-form-item label="用户类型">
-          <el-input placeholder="搜索条件" v-model="searchInfo.userRole"></el-input>
-        </el-form-item>
         <el-form-item label="平台">
           <el-input placeholder="搜索条件" v-model="searchInfo.platform"></el-input>
         </el-form-item>
-        <el-form-item label="生效 " prop="status">
-          <el-select v-model="searchInfo.status" clear placeholder="请选择">
+        <el-form-item label="广告位置:">
+          <el-input placeholder="搜索条件" v-model="searchInfo.adPlace"></el-input>
+        </el-form-item>
+        <el-form-item label="广告的类型">
+          <el-input placeholder="搜索条件" v-model="searchInfo.adType"></el-input>
+        </el-form-item>
+        <el-form-item label="广告平台">
+          <el-input placeholder="搜索条件" v-model="searchInfo.adPlatform"></el-input>
+        </el-form-item>
+        <el-form-item label="广告id">
+          <el-input placeholder="搜索条件" v-model="searchInfo.adId"></el-input>
+        </el-form-item>
+        <el-form-item label="是否生效 0：否 1：是" prop="enable">
+          <el-select v-model="searchInfo.enable" clear placeholder="请选择">
             <el-option
                 key="true"
                 label="是"
@@ -22,9 +31,6 @@
                 value="false">
             </el-option>
           </el-select>
-        </el-form-item>
-        <el-form-item label="操作人">
-          <el-input placeholder="搜索条件" v-model="searchInfo.operator"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button @click="onSubmit" type="primary">查询</el-button>
@@ -55,17 +61,18 @@
         stripe
         style="width: 100%"
         tooltip-effect="dark"
-        @sort-change="onOrder"
     >
       <el-table-column type="selection" width="55"></el-table-column>
 
-      <el-table-column label="用户类型" prop="userRole" width="120" sortable></el-table-column>
-
       <el-table-column label="平台" prop="platform" width="120"></el-table-column>
 
-      <el-table-column label="生效 " prop="status" width="120" sortable>
-        <template slot-scope="scope">{{ scope.row.status|formatBoolean }}</template>
-      </el-table-column>
+      <el-table-column label="广告位置:" prop="adPlace" width="120"></el-table-column>
+
+      <el-table-column label="广告的类型" prop="adType" width="120"></el-table-column>
+
+      <el-table-column label="广告平台" prop="adPlatform" width="120"></el-table-column>
+
+      <el-table-column label="广告id" prop="adId" width="120"></el-table-column>
 
       <el-table-column label="广告策略" prop="strategy" width="420">
         <template slot-scope="scope">
@@ -78,9 +85,13 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="创建时间" prop="createTime" width="120" sortable></el-table-column>
+      <el-table-column label="是否生效 0：否 1：是" prop="enable" width="120">
+        <template slot-scope="scope">{{ scope.row.enable|formatBoolean }}</template>
+      </el-table-column>
 
-      <el-table-column label="更新时间" prop="updateTime" width="120" sortable></el-table-column>
+      <el-table-column label="创建时间" prop="createTime" width="120"></el-table-column>
+
+      <el-table-column label="更新时间" prop="updateTime" width="120"></el-table-column>
 
       <el-table-column label="操作人" prop="operator" width="120"></el-table-column>
 
@@ -114,17 +125,24 @@
 
     <el-dialog :before-close="closeDialog" :visible.sync="dialogFormVisible" title="弹窗操作">
       <el-form :model="formData" label-position="right" label-width="80px">
-        <el-form-item label="用户类型:">
-          <el-input v-model="formData.userRole" clearable placeholder="请输入"></el-input>
-        </el-form-item>
-
         <el-form-item label="平台:">
           <el-input v-model="formData.platform" clearable placeholder="请输入"></el-input>
         </el-form-item>
 
-        <el-form-item label="生效 :">
-          <el-switch active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否"
-                     v-model="formData.status" clearable></el-switch>
+        <el-form-item label="广告位置::">
+          <el-input v-model="formData.adPlace" clearable placeholder="请输入"></el-input>
+        </el-form-item>
+
+        <el-form-item label="广告的类型:">
+          <el-input v-model="formData.adType" clearable placeholder="请输入"></el-input>
+        </el-form-item>
+
+        <el-form-item label="广告平台:">
+          <el-input v-model="formData.adPlatform" clearable placeholder="请输入"></el-input>
+        </el-form-item>
+
+        <el-form-item label="广告id:">
+          <el-input v-model="formData.adId" clearable placeholder="请输入"></el-input>
         </el-form-item>
 
         <el-form-item label="广告策略:">
@@ -136,6 +154,11 @@
               :objData="parseJsonBody(formData.strategy)"
               v-model="formData.strategy">
           </JsonEditor>
+        </el-form-item>
+
+        <el-form-item label="是否生效 0：否 1：是:">
+          <el-switch active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否"
+                     v-model="formData.enable" clearable></el-switch>
         </el-form-item>
 
         <el-form-item label="创建时间:">
@@ -181,19 +204,17 @@ export default {
       type: "",
       deleteVisible: false,
       multipleSelection: [], formData: {
-        userRole: "",
         platform: "",
-        status: false,
+        adPlace: "",
+        adType: "",
+        adPlatform: "",
+        adId: "",
         strategy: "",
+        enable: false,
         createTime: new Date(),
         updateTime: new Date(),
         operator: "",
-      },
-      jsonData: {
-        name: 'mike',
-        age: 23,
-        phone: '18552129932',
-        address: ['AAA C1', 'BBB C2']
+
       }
     };
   },
@@ -219,14 +240,9 @@ export default {
     onSubmit() {
       this.page = 1
       this.pageSize = 10
-      if (this.searchInfo.status == "") {
-        this.searchInfo.status = null
+      if (this.searchInfo.enable == "") {
+        this.searchInfo.enable = null
       }
-      this.getTableData()
-    },
-    onOrder(scope) {
-      this.order = scope.prop;
-      this.orderBy = scope.order === "descending" ? "desc" : "asc";
       this.getTableData()
     },
     handleSelectionChange(val) {
@@ -259,10 +275,13 @@ export default {
     closeDialog() {
       this.dialogFormVisible = false;
       this.formData = {
-        userRole: "",
         platform: "",
-        status: false,
+        adPlace: "",
+        adType: "",
+        adPlatform: "",
+        adId: "",
         strategy: "",
+        enable: false,
         createTime: new Date(),
         updateTime: new Date(),
         operator: "",
