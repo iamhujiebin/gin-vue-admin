@@ -11,14 +11,14 @@
 <template>
   <div>
     <el-upload
-      class="image-uploader"
-      :action="`${path}/fileUploadAndDownload/upload`"
-      :show-file-list="false"
-      :on-success="handleImageSuccess"
-      :before-upload="beforeImageUpload"
-      :multiple="false"
+        class="image-uploader"
+        :action="`${path}/fileUploadAndDownload/upload`"
+        :show-file-list="false"
+        :on-success="handleImageSuccess"
+        :before-upload="beforeImageUpload"
+        :multiple="false"
     >
-      <img v-if="imageUrl" :src="imageUrl" class="image" />
+      <img v-if="imageUrl" :src="imageUrl" class="image"/>
       <i v-else class="el-icon-plus image-uploader-icon"></i>
     </el-upload>
   </div>
@@ -26,6 +26,7 @@
 <script>
 const path = process.env.VUE_APP_BASE_API;
 import ImageCompress from "@/utils/image.js";
+
 export default {
   name: "upload-image",
   model: {
@@ -63,9 +64,9 @@ export default {
     },
     handleImageSuccess(res) {
       // this.imageUrl = URL.createObjectURL(file.raw);
-      const {  data } = res;
+      const {data} = res;
       if (data.file) {
-        this.$emit("change", data.file.url);
+        this.$emit("change", path + data.file.url);
       }
     },
   },
@@ -81,9 +82,11 @@ export default {
   position: relative;
   overflow: hidden;
 }
+
 .image-uploader {
   border-color: #409eff;
 }
+
 .image-uploader-icon {
   font-size: 28px;
   color: #8c939d;
@@ -92,6 +95,7 @@ export default {
   line-height: 178px;
   text-align: center;
 }
+
 .image {
   width: 178px;
   height: 178px;

@@ -13,12 +13,11 @@
           >
             <el-button size="small" type="primary">点击上传</el-button>
             <div class="el-upload__tip" slot="tip">
-              只能上传jpg/png文件，且不超过500kb
+              上传文件不超过100MB
             </div>
           </el-upload>
         </el-col>
         <el-col :span="12">
-          带压缩的上传, (512(k)为压缩限制)
           <upload-image v-model="imageUrl" :fileSize="512" :maxWH="1080"/>
           已上传文件 {{ imageUrl }}
         </el-col>
@@ -27,7 +26,7 @@
       <el-table :data="tableData" border stripe>
         <el-table-column label="预览" width="100">
           <template slot-scope="scope">
-            <CustomPic picType="file" :picSrc="scope.row.url"/>
+            <CustomPic v-if="imageType.indexOf(scope.row.tag) >= 0" picType="file" :picSrc="scope.row.url"/>
           </template>
         </el-table-column>
         <el-table-column label="日期" prop="UpdatedAt" width="180">
@@ -109,6 +108,7 @@ export default {
       domain: domain,
       tableData: [],
       imageUrl: "",
+      imageType: ['jpg', 'png', 'jpeg']
     };
   },
   computed: {
@@ -150,18 +150,19 @@ export default {
     },
     checkFile(file) {
       this.fullscreenLoading = true;
-      const isJPG = file.type === "image/jpeg";
-      const isPng = file.type === "image/png";
-      const isLt2M = file.size / 1024 / 1024 < 2;
-      if (!isJPG && !isPng) {
-        this.$message.error("上传头像图片只能是 JPG或png 格式!");
-        this.fullscreenLoading = false;
-      }
-      if (!isLt2M) {
+      // const isJPG = file.type === "image/jpeg";
+      // const isPng = file.type === "image/png";
+      const isLt100M = file.size / 1024 / 1024 < 100;
+      // if (!isJPG && !isPng) {
+      //   this.$message.error("上传头像图片只能是 JPG或png 格式!");
+      //   this.fullscreenLoading = false;
+      // }
+      if (!isLt100M) {
         this.$message.error("上传头像图片大小不能超过 2MB!");
         this.fullscreenLoading = false;
       }
-      return (isPng || isJPG) && isLt2M;
+      // return (isPng || isJPG) && isLt100M;
+      return isLt100M;
     },
     uploadSuccess(res) {
       this.fullscreenLoading = false;

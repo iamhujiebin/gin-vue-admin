@@ -64,7 +64,7 @@ mysql:
 mysql_logic:
   path: '127.0.0.1:3306'
   config: 'charset=utf8mb4&parseTime=True&loc=Local'
-  db-name: 'Frozen'
+  db-name: 'PulsePro'
   username: 'jiebin'
   password: '123456'
   max-idle-conns: 10
