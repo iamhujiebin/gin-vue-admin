@@ -28,7 +28,7 @@
           <template slot-scope="scope">
             <CustomPic v-if="['jpg', 'png', 'jpeg'].indexOf(scope.row.tag) >= 0" picType="file"
                        :picSrc="scope.row.url"/>
-            <video width="100" height="200" v-if="['mp4','rmvb','flv'].indexOf(scope.row.tag) >= 0"
+            <video controls width="100" height="200" v-if="['mp4','rmvb','flv'].indexOf(scope.row.tag) >= 0"
                    :src="path+scope.row.url"/>
           </template>
         </el-table-column>
