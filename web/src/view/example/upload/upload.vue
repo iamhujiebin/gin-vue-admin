@@ -26,8 +26,10 @@
       <el-table :data="tableData" border stripe>
         <el-table-column label="预览" width="100">
           <template slot-scope="scope">
-            <CustomPic v-if="imageType.indexOf(scope.row.tag) >= 0" picType="file" :picSrc="scope.row.url"/>
-            <video width="100" height="200" v-if="['mp4'].indexOf(scope.row.tag) >= 0" :src="path+scope.row.url"/>
+            <CustomPic v-if="['jpg', 'png', 'jpeg'].indexOf(scope.row.tag) >= 0" picType="file"
+                       :picSrc="scope.row.url"/>
+            <video width="100" height="200" v-if="['mp4','rmvb','flv'].indexOf(scope.row.tag) >= 0"
+                   :src="path+scope.row.url"/>
           </template>
         </el-table-column>
         <el-table-column label="日期" prop="UpdatedAt" width="180">
@@ -108,8 +110,7 @@ export default {
       path: path,
       domain: domain,
       tableData: [],
-      imageUrl: "",
-      imageType: ['jpg', 'png', 'jpeg']
+      imageUrl: ""
     };
   },
   computed: {
