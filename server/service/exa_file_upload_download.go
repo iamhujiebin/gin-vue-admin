@@ -6,6 +6,7 @@ import (
 	"gin-vue-admin/model"
 	"gin-vue-admin/model/request"
 	"gin-vue-admin/utils/upload"
+	"gorm.io/gorm"
 	"mime/multipart"
 	"strings"
 )
@@ -42,11 +43,28 @@ func FindFile(id uint) (error, model.ExaFileUploadAndDownload) {
 func DeleteFile(file model.ExaFileUploadAndDownload) (err error) {
 	var fileFromDb model.ExaFileUploadAndDownload
 	err, fileFromDb = FindFile(file.ID)
-	oss := upload.NewOss()
-	if err = oss.DeleteFile(fileFromDb.Key); err != nil {
-		return errors.New("文件删除失败")
+	if err != nil {
+		return err
 	}
-	err = global.GVA_DB.Where("id = ?", file.ID).Unscoped().Delete(file).Error
+	err = global.GVA_DB.Transaction(func(tx *gorm.DB) error {
+		err = global.GVA_DB.Where("id = ?", file.ID).Unscoped().Delete(file).Error
+		if err != nil {
+			return err
+		}
+		identify := strings.Split(file.Key, ".")
+		if len(identify) > 0 {
+			identifier := identify[0]
+			err = global.GVA_DB.Model(model.ExaSimpleUploader{}).Where("identifier = ?", identifier).Unscoped().Delete(file).Error
+			if err != nil {
+				return err
+			}
+		}
+		oss := upload.NewOss()
+		if err = oss.DeleteFile(fileFromDb.Key); err != nil {
+			return errors.New("文件删除失败")
+		}
+		return nil
+	})
 	return err
 }
 
