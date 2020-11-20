@@ -13,7 +13,7 @@
           >
             <el-button size="small" type="primary">点击上传</el-button>
             <div class="el-upload__tip" slot="tip">
-              上传文件不超过100MB
+              上传文件不超过10MB,大文件需要在 断点续传（插件版） 上传
             </div>
           </el-upload>
         </el-col>
@@ -27,6 +27,7 @@
         <el-table-column label="预览" width="100">
           <template slot-scope="scope">
             <CustomPic v-if="imageType.indexOf(scope.row.tag) >= 0" picType="file" :picSrc="scope.row.url"/>
+            <video width="100" height="200" v-if="['mp4'].indexOf(scope.row.tag) >= 0" :src="path+scope.row.url"/>
           </template>
         </el-table-column>
         <el-table-column label="日期" prop="UpdatedAt" width="180">
@@ -152,7 +153,7 @@ export default {
       this.fullscreenLoading = true;
       // const isJPG = file.type === "image/jpeg";
       // const isPng = file.type === "image/png";
-      const isLt100M = file.size / 1024 / 1024 < 100;
+      const isLt100M = file.size / 1024 / 1024 < 10;
       // if (!isJPG && !isPng) {
       //   this.$message.error("上传头像图片只能是 JPG或png 格式!");
       //   this.fullscreenLoading = false;
