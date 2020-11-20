@@ -30,3 +30,4 @@ go.sum
 *.iml
 uploads/
 finish/
+debug.log

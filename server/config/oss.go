@@ -1,7 +1,8 @@
 package config
 
 type Local struct {
-	Path string `mapstructure:"path" json:"path" yaml:"path" `
+	Path  string `mapstructure:"path" json:"path" yaml:"path" `
+	Path2 string `mapstructure:"path2" json:"path2" yaml:"path2" `
 }
 
 type Qiniu struct {
