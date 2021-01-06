@@ -55,8 +55,8 @@ mysql:
   path: '127.0.0.1:3306'
   config: 'charset=utf8mb4&parseTime=True&loc=Local'
   db-name: 'GinVueAdmin'
-  username: 'jiebin'
-  password: '123456'
+  username: 'ginvueadmin'
+  password: 'ginvueadmin123456'
   max-idle-conns: 10
   max-open-conns: 10
   log-mode: false
@@ -64,9 +64,9 @@ mysql:
 mysql_logic:
   path: '127.0.0.1:3306'
   config: 'charset=utf8mb4&parseTime=True&loc=Local'
-  db-name: 'PulsePro'
-  username: 'jiebin'
-  password: '123456'
+  db-name: 'ShopBack'
+  username: 'knightCard'
+  password: 'knc!@34#@!'
   max-idle-conns: 10
   max-open-conns: 10
   log-mode: false
