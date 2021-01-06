@@ -26,7 +26,8 @@ func UploadFile(c *gin.Context) {
 		response.FailWithMessage(fmt.Sprintf("上传文件失败，%v", err), c)
 		return
 	}
-	err, file = service.UploadFile(header, noSave) // 文件上传后拿到文件路径
+	filename := c.Request.FormValue("filename")
+	err, file = service.UploadFile(filename, header, noSave) // 文件上传后拿到文件路径
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("修改数据库链接失败，%v", err), c)
 		return

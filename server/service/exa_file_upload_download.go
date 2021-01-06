@@ -94,17 +94,20 @@ func GetFileRecordInfoList(info request.PageInfo) (err error, list interface{}, 
 // @return    err             error
 // @return    file            file model.ExaFileUploadAndDownload
 
-func UploadFile(header *multipart.FileHeader, noSave string) (err error, file model.ExaFileUploadAndDownload) {
+func UploadFile(filename string, header *multipart.FileHeader, noSave string) (err error, file model.ExaFileUploadAndDownload) {
 	oss := upload.NewOss()
 	filePath, key, uploadErr := oss.UploadFile(header)
 	if uploadErr != nil {
 		panic(err)
 	}
+	if len(filename) <= 0 {
+		filename = header.Filename
+	}
 	if noSave == "0" {
 		s := strings.Split(header.Filename, ".")
 		f := model.ExaFileUploadAndDownload{
 			Url:  "/" + filePath,
-			Name: header.Filename,
+			Name: filename,
 			Tag:  s[len(s)-1],
 			Key:  key,
 		}
